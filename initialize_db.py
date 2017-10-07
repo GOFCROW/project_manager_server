@@ -19,4 +19,4 @@ sqlite3.connect(db_name)
 Base.metadata.drop_all(DataBase.engine, checkfirst=True)
 Base.metadata.create_all(DataBase.engine, checkfirst=True)
 
-print(('Database and tables ' if is_sqlite else 'Tables') + 'dropped/created successfully!')
+print(('Database and Tables') + 'dropped/created successfully!')
