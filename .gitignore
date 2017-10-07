@@ -1,0 +1,13 @@
+__pycache__/
+docs/
+*.db
+*.spec
+*.exe
+*.zip
+*.toc
+*.pkg
+*.pyz
+*.manifest
+.env
+.vscode
+.idea
