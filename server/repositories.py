@@ -33,6 +33,9 @@ class DeveloperRepo(Repository):
     def __init__(self, db):
         super().__init__(Developer, db)
 
+    def listar_dev_habilitado(self):
+        return self.db.query(Developer).filter(Developer.enabled.is_(True)).all()
+
 class ProjectRepo(Repository):
     def __init__(self, db):
         super().__init__(Project, db)

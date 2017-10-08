@@ -15,6 +15,8 @@ class Developer(Base):
     mail = Column(String(100), nullable=False)
     enabled = Column(Boolean, nullable=False, default=True)
 
+    projects = relationship('Project')
+
 
 class ProjectDeveloper(Base):
     __tablename__ = 'project_developer'

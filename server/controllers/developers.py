@@ -12,8 +12,13 @@ class InsertDev(Handler):
     def post(self):
         xml_str = self.get_argument('xml', None)
         xml = ET.fromstring(xml_str)
+        for child in xml:
+            #TODO: Crear objeto Developer y insertar en la BD
+            print(child.tag, child.attrib)
+
+        #Developer = toobj(xml)
         # insertar los developers
-        self.write(xml)
+        self.write('good')
 
 class UpdateDev(Handler):
     def post(self):
