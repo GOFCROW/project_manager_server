@@ -1,9 +1,9 @@
-from ..repositories import DeveloperRepo
+from ..data_layer.repositories import ProjectRepo
 from ._main import Logic
 
-class DeveloperLogic(Logic):
+class ProjectLogic(Logic):
     def __init__(self, db):
-        super().__init__(DeveloperRepo(db), db)
+        super().__init__(ProjectRepo(db), db)
 
     def all(self):
         #implementar logica de negocio

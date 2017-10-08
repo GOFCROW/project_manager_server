@@ -1,4 +1,4 @@
-from ..connection import DataBase
+from ..data_layer.connection import DataBase
 from xml.etree import ElementTree as ET
 from ._main import Handler
 

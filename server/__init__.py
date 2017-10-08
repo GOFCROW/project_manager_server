@@ -8,7 +8,7 @@ from tornado.httpserver import HTTPServer
 
 from .routes import HANDLERS
 from .controllers import Error404Handler
-from .connection import DataBase
+from .data_layer.connection import DataBase
 
 
 def launch_app(config):
