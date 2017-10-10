@@ -4,7 +4,7 @@ import sqlite3
 from configparser import ConfigParser
 
 from server import DataBase
-from server.models import (
+from server.data_layer.models import (
     Base
 )
 
