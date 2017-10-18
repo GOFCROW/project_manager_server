@@ -5,8 +5,7 @@ class DeveloperLogic(Logic):
     def __init__(self, db):
         super().__init__(DeveloperRepo(db), db)
 
-    def all(self):
-        #implementar logica de negocio
+    def list_(self):
         return self.repo.all()
 
     def find(self, obj):
