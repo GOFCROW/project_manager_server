@@ -94,7 +94,7 @@ class DeveloperRepo(Repository):
             self.db.commit()
             messages = {
                 0: "No se encontraron registros para modificar por lo menos a un desarrollador.",
-                1: "Desarrollador actualizado correctamente.",
+                1: "Desarrollador actualizado correctamente."
             }
             return {"success": True, "message": messages.get(i, "Desarrolladores actualizados correctamente.")}
         except Exception:
