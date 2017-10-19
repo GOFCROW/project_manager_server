@@ -13,16 +13,14 @@ class ListDev(CrudHandler):
 class InsertDev(CrudHandler):
     def post(self):
         xml_str = self.get_argument('xml', None)
-        DeveloperLogic(self.db).insert_devs(xml_str)
-        self.write('good')
+        response = DeveloperLogic(self.db).insert_devs(xml_str)
+        self.write(response)
 
 class UpdateDev(CrudHandler):
-
     def post(self):
         xml_str = self.get_argument('xml', None)
-        xml = ET.fromstring(xml_str)
-        # actualizar los developers
-        self.write(xml)
+        response = DeveloperLogic(self.db).update_dev(xml_str)
+        self.write(response)
 
 class GetDev(CrudHandler):
     def post(self):
