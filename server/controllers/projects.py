@@ -1,30 +1,32 @@
-from ..data_layer.connection import DataBase
 from xml.etree import ElementTree as ET
-from ._main import Handler
+
+from ..logic_layer.projects import ProjectLogic
+from ._main import CrudHandler
 
 
-class ListProj(Handler):
+class ListProj(CrudHandler):
     def post(self):
-        # listar los projectos
-        self.write('Projs')
+        self.list_objs(
+            ProjectLogic(self.db),
+            'projects'
+        )
 
-class InsertProj(Handler):
+class InsertProj(CrudHandler):
+
     def post(self):
         xml_str = self.get_argument('xml', None)
         xml = ET.fromstring(xml_str)
         # insertar los projectos
         self.write(xml)
 
-class UpdateProj(Handler):
+class UpdateProj(CrudHandler):
+
     def post(self):
         xml_str = self.get_argument('xml', None)
         xml = ET.fromstring(xml_str)
         # actualizar los projectos
         self.write(xml)
 
-class GetProj(Handler):
+class GetProj(CrudHandler):
     def post(self):
-        xml_str = self.get_argument('xml', None)
-        xml = ET.fromstring(xml_str)
-        # obtener los projectos
-        self.write(xml)
+        self.get_obj(ProjectLogic(self.db))

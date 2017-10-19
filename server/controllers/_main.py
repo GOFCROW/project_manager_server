@@ -36,13 +36,27 @@ class Handler(RequestHandler):
         id_ = self.get_argument('id', None)
         if id_ is not None:
             try:
-                return int(ET.fromstring(id_)[0].text)
+                return int(ET.fromstring(id_).text)
             except:
-                self.write('invalid xml/data format!')
+                self.write('invalid xml/data format, <req>int</req> expected!')
         else:
             self.write('id is required!')
         self.finish()
 
+
+class CrudHandler(Handler):
+    def list_objs(self, logic, plural_name):
+        objs = logic.all()
+        elements = self.list_to_xml(objs, plural_name)
+        self.write(ET.tostring(elements))
+
+    def get_obj(self, logic):
+        id_ = self.get_id()
+        obj = logic.find(id_)
+        element = obj.get_element_tree()
+        self.write(ET.tostring(element))
+
+
 class Index(Handler):
-    def post(self):
-        self.write('GOF PROJECT')
+    def get(self):
+        self.render('main.html')

@@ -18,6 +18,7 @@ def launch_app(config):
     app = Application(
         HANDLERS,
         **settings,
+        template_path=os.path.join(os.getcwd(), 'server', 'templates'),
         default_handler_class=Error404Handler
     )
     server_address = config['Server']['address']

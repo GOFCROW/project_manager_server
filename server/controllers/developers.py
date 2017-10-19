@@ -1,16 +1,16 @@
 from xml.etree import ElementTree as ET
-from ._main import Handler
+from ._main import CrudHandler
 from ..logic_layer.developers import DeveloperLogic
 
 
-class ListDev(Handler):
+class ListDev(CrudHandler):
     def post(self):
-        logic = DeveloperLogic(self.db)
-        devs = logic.list_()
-        elements = self.list_to_xml(devs, 'developers')
-        self.write(ET.tostring(elements))
+        self.list_objs(
+            DeveloperLogic(self.db),
+            'developers'
+        )
 
-class InsertDev(Handler):
+class InsertDev(CrudHandler):
     def post(self):
         xml_str = self.get_argument('xml', None)
         xml = ET.fromstring(xml_str)
@@ -22,16 +22,14 @@ class InsertDev(Handler):
         # insertar los developers
         self.write('good')
 
-class UpdateDev(Handler):
+class UpdateDev(CrudHandler):
+
     def post(self):
         xml_str = self.get_argument('xml', None)
         xml = ET.fromstring(xml_str)
         # actualizar los developers
         self.write(xml)
 
-class GetDev(Handler):
+class GetDev(CrudHandler):
     def post(self):
-        id_ = self.get_id()
-        logic = DeveloperLogic(self.db)
-        dev = logic.find(id_)
-        self.write(ET.dump(dev.get_element_tree()))
+        self.get_obj(DeveloperLogic(self.db))
