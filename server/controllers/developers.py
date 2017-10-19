@@ -13,13 +13,7 @@ class ListDev(CrudHandler):
 class InsertDev(CrudHandler):
     def post(self):
         xml_str = self.get_argument('xml', None)
-        xml = ET.fromstring(xml_str)
-        for child in xml:
-            #TODO: Crear objeto Developer y insertar en la BD
-            print(child.tag, child.attrib)
-
-        #Developer = toobj(xml)
-        # insertar los developers
+        DeveloperLogic(self.db).insert_devs(xml_str)
         self.write('good')
 
 class UpdateDev(CrudHandler):
