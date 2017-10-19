@@ -1,4 +1,3 @@
-from xml.etree import ElementTree as ET
 from ._main import CrudHandler
 from ..logic_layer.developers import DeveloperLogic
 
