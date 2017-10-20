@@ -46,11 +46,19 @@ class Serializable:
     def get_json(self):
         return json.dumps(self.get_dict(), default=self.alchemy_encoder)
 
-    def get_element_tree(self):
-        root = ET.Element(self.__class__.__name__)
+    def get_element_tree(self, root=None):
+        root = ET.Element(self.__class__.__name__) if root is None else root
         dict_ = self.get_dict()
         for attr in dict_:
-            ET.SubElement(root, attr).text = str(dict_[attr])
+            value = dict_[attr]
+            if isinstance(value, list) and len(value) > 0:
+                attr_list = ET.SubElement(root, attr)
+                for obj in value:
+                    obj.get_element_tree(attr_list)
+            elif isinstance(value, dict):
+                ET.SubElement(root, attr).append(value.get_element_tree())
+            else:
+                ET.SubElement(root, attr).text = str(dict_[attr])
         return root
 
     def get_xml(self):

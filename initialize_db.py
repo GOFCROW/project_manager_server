@@ -1,17 +1,47 @@
 # import hashlib
 import sqlite3
-import random
+import random as rand
 
 from configparser import ConfigParser
 from faker import Faker
 
 from server import DataBase
 from server.data_layer.models import (
-    Base,
+    Assignment,
     Developer,
-    RoleDev
+    Project,
+    RoleDev,
+    Base
 )
+# PARAMS
 
+NUMBER_DEVS = 50
+NUMBER_PROJS = 10
+
+ROLES = [
+    'Gestor de proyecto',
+    'Programador',
+    'Diseñador',
+    'Analista',
+    'Tester'
+]
+
+EXPERIENCE = [
+    'menos de 2 año',
+    'de 2 - 4 años',
+    'de 4 - 7 años',
+    'de 7 años en adelante'
+]
+
+SKILLS = [
+    'Aprendizaje rapido',
+    'Proactivo',
+    'Disciplinado',
+    'Pensador lógico',
+    'Solucionador de problemas'
+]
+
+# SCRIPT
 config = ConfigParser()
 config.read('settings.ini')
 connection_string = config['Database']['url']
@@ -27,51 +57,57 @@ print(('Database and Tables') + 'dropped/created successfully!')
 
 db = DataBase.get_session()
 
-db.add(RoleDev(
-    name = 'programador'
-))
+for r in ROLES:
+    db.add(RoleDev(name=r))
 db.commit()
-
-FAKER = Faker()
-years_exp = [
-    'menos de 2 año',
-    'de 2 - 4 años',
-    'de 4 - 7 años',
-    'de 7 años en adelante'
-]
-
-skills = [
-    'Aprendizaje rapido',
-    'Proactivo',
-    'Disciplinado',
-    'Pensador lógico',
-    'Solucionador de problemas'
-]
 
 def random_skills_(list_: list, n):
     if n == 1:
-        return random.choice(list_)
-    choice = random.choice(list_)
+        return rand.choice(list_)
+    choice = rand.choice(list_)
     list_.remove(choice)
     result = random_skills_(list_, n - 1)
     return result + ', ' + choice
 
 def random_skills():
-    nro_skills = random.randint(1, len(skills))
-    rand_skills = random_skills_(skills[:], nro_skills)
+    nro_skills = rand.randint(1, len(SKILLS))
+    rand_skills = random_skills_(SKILLS[:], nro_skills)
     return rand_skills
 
-for i in range(0, 50):
+FAKER = Faker()
+for i in range(1, NUMBER_DEVS + 1):
     db.add(Developer(
         first_name=FAKER.first_name(),
         last_name=FAKER.last_name(),
-        phone=FAKER.phone_number(),
-        experience=random.choice(years_exp),
+        phone_number=FAKER.phone_number(),
+        experience=rand.choice(EXPERIENCE),
         skills=random_skills(),
-        mail=FAKER.email(),
+        email=FAKER.email(),
         password=FAKER.password(),
-        fk_role=1
     ))
+db.commit()
+
+for i in range(1, NUMBER_PROJS + 1):
+    p = Project(
+        name='proyecto ' + FAKER.city(),
+        description=FAKER.sentence(),
+        estimated_hours=rand.randint(40, 700),
+    )
+
+    taken_devs = list()
+
+    for i in range(0, rand.randint(2, 10)):
+        fk_dev = rand.randint(1, NUMBER_DEVS)
+        while fk_dev in taken_devs:
+            fk_dev = rand.randint(1, NUMBER_DEVS)
+        taken_devs.append(fk_dev)
+
+        p.assignments.append(Assignment(
+            fk_role=rand.randint(1, len(ROLES) + 1),
+            hours_worked=rand.randint(0, 690),
+            fk_dev=fk_dev,
+        ))
+    db.add(p)
 db.commit()
 
 print('Default insertions done!')

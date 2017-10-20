@@ -1,4 +1,11 @@
-from .models import Developer, Project
+from sqlalchemy.orm import joinedload
+
+from .models import (
+    Assignment,
+    Developer,
+    RoleDev,
+    Project
+) 
 from xml.etree import ElementTree as ET
 import traceback
 
@@ -35,8 +42,9 @@ class DeveloperRepo(Repository):
     def __init__(self, db):
         super().__init__(Developer, db)
 
-    def listar_dev_habilitado(self):
-        return self.db.query(Developer).filter(Developer.enabled.is_(True)).all()
+    def all(self):
+        return self.db.query(Developer).\
+            options(joinedload('assignments').joinedload('project'))
 
     def insert_devs(self, xml_str):
         try:
