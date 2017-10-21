@@ -54,12 +54,10 @@ class DeveloperRepo(Repository):
                 developer = Developer(
                     first_name=child.find('first_name').text,
                     last_name=child.find('last_name').text,
-                    phone=child.find('phone').text,
+                    phone_number=child.find('phone_number').text,
                     experience=child.find('experience').text,
                     skills=child.find('skills').text,
-                    mail=child.find('mail').text,
-                    password=child.find('password').text,
-                    fk_role=child.find('fk_role').text
+                    email=child.find('email').text
                 )
                 self.db.add(developer)
                 i += 1
