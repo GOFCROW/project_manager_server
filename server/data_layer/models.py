@@ -42,10 +42,6 @@ class Project(Serializable, Base):
     description = Column(String(255), nullable=False)
     estimated_hours = Column(Integer, nullable=False)
     enabled = Column(Boolean, nullable=False, default=True)
-    timestamp_created = Column(
-        DateTime, nullable=False, default=datetime.datetime.utcnow)
-    timestamp_modif = Column(
-        DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     assignments = relationship('Assignment')
 

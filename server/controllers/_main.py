@@ -29,7 +29,7 @@ class Handler(RequestHandler):
     def list_to_xml(self, list_, list_name):
         root = ET.Element(list_name)
         for e in list_:
-            root.append(e.get_element_tree())
+            root.append(e.get_element())
         return root
 
     def get_id(self):
@@ -48,7 +48,8 @@ class CrudHandler(Handler):
     def list_objs(self, logic, plural_name):
         objs = logic.all()
         elements = self.list_to_xml(objs, plural_name)
-        self.write(ET.tostring(elements))
+        str_res = ET.tostring(elements)
+        self.write(str_res)
 
     def get_obj(self, logic):
         id_ = self.get_id()

@@ -1,11 +1,11 @@
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, Load
 
 from .models import (
     Assignment,
     Developer,
     RoleDev,
     Project
-) 
+)
 from xml.etree import ElementTree as ET
 import traceback
 
@@ -44,6 +44,7 @@ class DeveloperRepo(Repository):
 
     def all(self):
         return self.db.query(Developer).\
+            options(joinedload('assignments').joinedload('role')).\
             options(joinedload('assignments').joinedload('project'))
 
     def insert_devs(self, xml_str):
