@@ -1,10 +1,9 @@
-import datetime
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.orm import relationship
-from .serializable import Serializable
 
-from sqlalchemy.ext.declarative import declarative_base
+from .serializable import Serializable
 
 Base = declarative_base()
 
@@ -43,7 +42,10 @@ class Project(Serializable, Base):
     estimated_hours = Column(Integer, nullable=False)
     enabled = Column(Boolean, nullable=False, default=True)
 
-    assignments = relationship('Assignment')
+    assignments = relationship(
+        'Assignment',
+        cascade="save-update, merge, delete, delete-orphan"
+    )
 
 
 class RoleDev(Serializable, Base):

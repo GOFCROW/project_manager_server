@@ -1,6 +1,6 @@
-from ..data_layer.repositories import ProjectRepo
-from ._main import Logic
+from ..data_layer.repositories import ProjRepo
+from . import Logic
 
-class ProjectLogic(Logic):
+class ProjLogic(Logic):
     def __init__(self, db):
-        super().__init__(ProjectRepo(db), db)
+        super().__init__(ProjRepo(db), db)

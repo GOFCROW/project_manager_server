@@ -18,11 +18,6 @@ class Serializable:
                     value = mapped_class(value)
             setattr(self, attr, value)
 
-    def alchemy_encoder(self, obj):
-        if isinstance(obj, (datetime, date, time)):
-            return obj.isoformat()
-        raise TypeError("Type not serializable")
-
     def get_element(self, processed: list = None):
         processed = list() if processed is None else processed
         processed.append(type(self))
@@ -43,8 +38,11 @@ class Serializable:
                 else:
                     if value is not None:
                         root.append(value.get_element(processed[:]))
-                del(dict_[name])
+                del dict_[name]
 
         for attr in dict_:
             ET.SubElement(root, attr).text = str(dict_[attr])
         return root
+
+    def get_xml(self):
+        return ET.tostring(self.get_element())

@@ -16,7 +16,7 @@ from server.data_layer.models import (
 # PARAMS
 
 NUMBER_DEVS = 50
-NUMBER_PROJS = 10
+NUMBER_PROJS = 8
 
 ROLES = [
     'Gestor de proyecto',

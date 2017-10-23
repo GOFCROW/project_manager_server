@@ -4,13 +4,18 @@ from tornado.web import RequestHandler, HTTPError
 class Error404Handler(RequestHandler):
     def prepare(self):
         self.set_status(404)
-        self.write('Url inexistente')
+        self.write('Url inexistente, volver /')
         self.finish()
 
-class Handler(RequestHandler):
-    def get(self):
+    def data_received(self, chunk):
+        pass
+
+class Index(RequestHandler):
+    def get(self, *args, **kwargs):
         self.post()
 
-class Index(Handler):
-    def post(self):
-        self.write('GOF PROJECT')
+    def post(self, *args, **kwargs):
+        self.render('main.html')
+
+    def data_received(self, chunk):
+        pass

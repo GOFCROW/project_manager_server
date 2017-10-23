@@ -1,29 +1,23 @@
-from .controllers._main import Index
-
+from .controllers.roles import ListRoleDev
+from .controllers import Index
 from .controllers.developers import (
-    ListDev,
-    GetDev,
-    InsertDev,
-    UpdateDev
+    UpdateDev,
+    ListDev
 )
 
 from .controllers.projects import (
-    ListProj,
-    GetProj,
-    InsertProj,
-    UpdateProj
+    UpdateProj,
+    ListProj
 )
 
 HANDLERS = [
     (r'/', Index),
 
+    (r'/roles', ListRoleDev),
+
     (r'/developers', ListDev),
-    (r'/developers/get', GetDev),
-    (r'/developers/insert', InsertDev),
     (r'/developers/update', UpdateDev),
 
     (r'/projects', ListProj),
-    (r'/projects/get', GetProj),
-    (r'/projects/insert', InsertProj),
     (r'/projects/update', UpdateProj)
 ]

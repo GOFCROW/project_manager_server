@@ -1,32 +1,40 @@
-from xml.etree import ElementTree as ET
+from ..logic_layer.projects import ProjLogic
+from ..data_layer.models import Project
+from .handler import Handler
+from .validation import cstr
 
-from ..logic_layer.projects import ProjectLogic
-from ._main import CrudHandler
 
-
-class ListProj(CrudHandler):
-    def post(self):
+class ListProj(Handler):
+    def post(self, *args, **kwargs):
         self.list_objs(
-            ProjectLogic(self.db),
+            ProjLogic(self.db),
             'projects'
         )
 
-class InsertProj(CrudHandler):
+class UpdateProj(Handler):
+    schema = {
+        'id': cstr(int, required=False),
+        'name': cstr(str, 50),
+        'description': cstr(str, 50),
+        'estimated_hours': cstr(int),
+        'enabled': cstr(bool, required=False),
+        'assignments': {'type': 'list', 'schema':{
+            'type': 'dict',
+            'schema': {
+                'hours_worked': cstr(int),
+                'fk_role': cstr(int),
+                'fk_dev': cstr(int)
+            }
+        }}
+    }
 
+    def post(self, *args, **kwargs):
+        self.update_obj(
+            self.schema,
+            ProjLogic(self.db),
+            Project
+        )
+
+class GetProj(Handler):
     def post(self):
-        xml_str = self.get_argument('xml', None)
-        xml = ET.fromstring(xml_str)
-        # insertar los projectos
-        self.write(xml)
-
-class UpdateProj(CrudHandler):
-
-    def post(self):
-        xml_str = self.get_argument('xml', None)
-        xml = ET.fromstring(xml_str)
-        # actualizar los projectos
-        self.write(xml)
-
-class GetProj(CrudHandler):
-    def post(self):
-        self.get_obj(ProjectLogic(self.db))
+        self.get_obj(ProjLogic(self.db))

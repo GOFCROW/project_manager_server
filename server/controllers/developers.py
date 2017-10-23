@@ -1,26 +1,35 @@
-from ._main import CrudHandler
-from ..logic_layer.developers import DeveloperLogic
+from ..logic_layer.developers import DevLogic
+from ..data_layer.models import Developer
+from .handler import Handler
+from .validation import cstr
 
 
-class ListDev(CrudHandler):
-    def post(self):
+class ListDev(Handler):
+    def post(self, *args, **kwargs):
         self.list_objs(
-            DeveloperLogic(self.db),
+            DevLogic(self.db),
             'developers'
         )
 
-class InsertDev(CrudHandler):
-    def post(self):
-        xml_str = self.get_argument('xml', None)
-        response = DeveloperLogic(self.db).insert_devs(xml_str)
-        self.write(response)
+class UpdateDev(Handler):
+    schema = {
+        'id': cstr(int, required=False),
+        'first_name': cstr(str, 50),
+        'last_name': cstr(str, 50),
+        'phone_number': cstr(str, 50),
+        'experience': cstr(str, 255),
+        'skills': cstr(str, 255),
+        'email': cstr(str, 100),
+        'enabled': cstr(bool, required=False)
+    }
 
-class UpdateDev(CrudHandler):
-    def post(self):
-        xml_str = self.get_argument('xml', None)
-        response = DeveloperLogic(self.db).update_dev(xml_str)
-        self.write(response)
+    def post(self, *args, **kwargs):
+        self.update_obj(
+            self.schema,
+            DevLogic(self.db),
+            Developer
+        )
 
-class GetDev(CrudHandler):
-    def post(self):
-        self.get_obj(DeveloperLogic(self.db))
+class GetDev(Handler):
+    def post(self, *args, **kwargs):
+        self.get_obj(DevLogic(self.db))
