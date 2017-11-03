@@ -17,6 +17,8 @@ class Handler(DataBaseHandler, XmlHandler):
 
     def update_obj(self, schema, logic, entity):
         dict_ = self.get_args_as_dict()
+        if 'id' in dict_ and dict_['id'] == 0:
+            del dict_['id']
         v = Validator(schema)
         if v.validate(dict_):
             obj = entity(**v.document)
