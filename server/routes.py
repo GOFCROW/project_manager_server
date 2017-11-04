@@ -1,4 +1,3 @@
-from .controllers.roles import ListRoleDev
 from .controllers import Index
 from .controllers.developers import (
     UpdateDev,
@@ -12,8 +11,6 @@ from .controllers.projects import (
 
 HANDLERS = [
     (r'/', Index),
-
-    (r'/roles', ListRoleDev),
 
     (r'/developers', ListDev),
     (r'/developers/update', UpdateDev),

@@ -22,7 +22,6 @@ class UpdateProj(Handler):
             'type': 'dict',
             'schema': {
                 'hours_worked': cstr(int),
-                'fk_role': cstr(int),
                 'fk_dev': cstr(int)
             }
         }}

@@ -10,7 +10,6 @@ from server.data_layer.models import (
     Assignment,
     Developer,
     Project,
-    RoleDev,
     Base
 )
 # PARAMS
@@ -57,9 +56,6 @@ print(('Database and Tables') + 'dropped/created successfully!')
 
 db = DataBase.get_session()
 
-for r in ROLES:
-    db.add(RoleDev(name=r))
-db.commit()
 
 def random_skills_(list_: list, n):
     if n == 1:
@@ -103,7 +99,6 @@ for i in range(1, NUMBER_PROJS + 1):
         taken_devs.append(fk_dev)
 
         p.assignments.append(Assignment(
-            fk_role=rand.randint(1, len(ROLES) + 1),
             hours_worked=rand.randint(0, 690),
             fk_dev=fk_dev,
         ))

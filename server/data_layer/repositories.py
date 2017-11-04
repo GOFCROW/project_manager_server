@@ -2,7 +2,6 @@ from sqlalchemy.orm import joinedload
 
 from .models import (
     Developer,
-    RoleDev,
     Project
 )
 
@@ -27,10 +26,9 @@ class DevRepo(Repository):
         super().__init__(Developer, db)
 
     def all(self):
-        jl_assignments = joinedload('assignments')
         return self.db.query(Developer).\
-            options(jl_assignments.joinedload('role'),
-                    jl_assignments.joinedload('project'))
+            options(joinedload('assignments').
+                    joinedload('project'))
 
 
 class ProjRepo(Repository):
@@ -38,13 +36,6 @@ class ProjRepo(Repository):
         super().__init__(Project, db)
 
     def all(self):
-        jl_assignments = joinedload('assignments')
         return self.db.query(Project).\
-            options(jl_assignments.joinedload('role'),
-                    jl_assignments.joinedload('developer'))
-
-
-class RoleDevRepo(Repository):
-    def __init__(self, db):
-        super().__init__(RoleDev, db)
-
+            options(joinedload('assignments').
+                    joinedload('developer'))
